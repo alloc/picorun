@@ -1,0 +1,43 @@
+{
+  "name": "picorun",
+  "type": "module",
+  "version": "0.0.0",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
+  "bin": {
+    "picorun": "./dist/bin.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "author": "Alec Larson",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alloc/picorun.git"
+  },
+  "prettier": "@alloc/prettier-config",
+  "scripts": {
+    "dev": "rimraf dist && tsup --sourcemap --watch",
+    "build": "rimraf dist && tsup",
+    "format": "prettier --write .",
+    "lint": "tsc-lint",
+    "test": "vitest",
+    "prepublishOnly": "pnpm build"
+  },
+  "devDependencies": {
+    "@alloc/prettier-config": "latest",
+    "@types/node": "^22.13.14",
+    "prettier": "latest",
+    "radashi": "latest",
+    "rimraf": "latest",
+    "tsc-lint": "latest",
+    "tsup": "latest",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "ordana": "^0.4.0"
+  }
+}
