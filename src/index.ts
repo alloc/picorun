@@ -104,15 +104,15 @@ function prepareTasks(
   const preparedTasks: PreparedTask[] = []
 
   tasks.forEach((input, index) => {
-    const task = (
-      input.name
-        ? input
-        : {
-            ...input,
-            name: getDefaultTaskName(input, index, tasks),
-          }
-    ) as PreparedTask
+    const task = { ...input } as PreparedTask
 
+    // Normalize command to a single line
+    task.cmd = task.cmd.trim().replace(/\s*\n\s*/g, ' ')
+
+    // Generate default task name if not provided
+    task.name ||= getDefaultTaskName(input, index, tasks)
+
+    // Filter tasks by name if provided
     if (
       nameFilter?.length &&
       !nameFilter.some(filter => filter.test(task.name))
