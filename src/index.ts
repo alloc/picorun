@@ -264,8 +264,8 @@ export class TaskExecutionArray
 }
 
 export default function picorun(
-  tasks: Task[],
+  tasks: (Task | false | null | undefined)[],
   options?: Options
 ): TaskExecutionArray {
-  return new TaskExecutionArray(tasks, options)
+  return new TaskExecutionArray(tasks.filter(Boolean) as Task[], options)
 }
