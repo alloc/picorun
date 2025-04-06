@@ -113,7 +113,10 @@ function prepareTasks(
           }
     ) as PreparedTask
 
-    if (nameFilter && !nameFilter.some(filter => filter.test(task.name))) {
+    if (
+      nameFilter?.length &&
+      !nameFilter.some(filter => filter.test(task.name))
+    ) {
       return
     }
 
