@@ -67,11 +67,13 @@ export interface Options {
   formatTaskName?: (task: Task & { name: string }, index: number) => string
   /** Function to format durations */
   formatDuration?: (ms: number) => string
+  /** Filter tasks by name. Use `*` as a catch-all. */
+  filter?: string[]
 }
 
 export type PrepareTasksOptions = Pick<
   Options,
-  'padTaskNames' | 'colors' | 'formatTaskName'
+  'padTaskNames' | 'colors' | 'formatTaskName' | 'filter'
 >
 
 export interface TaskExecution extends PromiseLike<ExecutionResult> {

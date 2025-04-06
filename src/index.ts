@@ -93,11 +93,17 @@ function prepareTasks(
   tasks: Task[],
   options: PrepareTasksOptions = {}
 ): PreparedTask[] {
+  const nameFilter = options.filter?.map(
+    pattern =>
+      new RegExp(`^${pattern.replace(/\*/g, '.*').replace(/\?/g, '.')}$`, 'i')
+  )
   const maxNameLength = options.padTaskNames
     ? Math.max(...tasks.map(task => task.name?.length ?? 0))
     : 0
 
-  return tasks.map((input, index): PreparedTask => {
+  const preparedTasks: PreparedTask[] = []
+
+  tasks.forEach((input, index) => {
     const task = (
       input.name
         ? input
@@ -106,6 +112,10 @@ function prepareTasks(
             name: getDefaultTaskName(input, index, tasks),
           }
     ) as PreparedTask
+
+    if (nameFilter && !nameFilter.some(filter => filter.test(task.name))) {
+      return
+    }
 
     task.name = (options.formatTaskName || formatTaskName)(
       task,
@@ -120,8 +130,10 @@ function prepareTasks(
     task.buffer = ''
     task.stream = null
 
-    return task
+    preparedTasks.push(task)
   })
+
+  return preparedTasks
 }
 
 /**

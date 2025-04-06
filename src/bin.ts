@@ -13,7 +13,12 @@ const command = ordana.parse(process.argv.slice(2), {
         names: {
           description: 'Custom names for commands',
           type: 'string',
-          default: '',
+        },
+        filter: {
+          description: 'Filter tasks by name',
+          type: 'string',
+          multiple: true,
+          placeholder: 'pattern',
         },
       },
     },
@@ -24,7 +29,8 @@ if (command.type === 'help') {
   console.log(ordana.generateHelpMessage(command))
 } else {
   const picorun = await import('./index')
-  const names = command.values.names?.split(',')
+  const options = command.values
+  const names = options.names?.split(',')
   await picorun.default(
     command.positionals.map((cmd, index) => ({
       cmd,
@@ -32,6 +38,7 @@ if (command.type === 'help') {
     })),
     {
       padTaskNames: true,
+      filter: options.filter,
     }
   )
 }
