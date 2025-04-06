@@ -45,3 +45,7 @@ await tasks[0]
 // Wait for all tasks to complete
 await tasks
 ```
+
+## Prior Art
+
+- [tinyrun](https://github.com/microlinkhq/tinyrun)
