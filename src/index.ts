@@ -81,11 +81,6 @@ export function formatTaskName(
   return styleText(color, task.name)
 }
 
-function getDefaultTaskName(task: Task, index: number, tasks: Task[]): string {
-  const name = task.cmd.match(/^[^\s]+/)?.[0]
-  return !name || tasks.some(t => t.name === name) ? `[${index}]` : name
-}
-
 /**
  * Normalize and prepare tasks for execution
  */
@@ -110,7 +105,10 @@ function prepareTasks(
     task.cmd = task.cmd.trim().replace(/\s*\n\s*/g, ' ')
 
     // Generate default task name if not provided
-    task.name ||= getDefaultTaskName(input, index, tasks)
+    if (!task.name) {
+      const bin = task.cmd.match(/^[^\s]+/)?.[0]
+      task.name = bin && !tasks.some(t => t.name === bin) ? bin : `[${index}]`
+    }
 
     // Filter tasks by name if provided
     if (
