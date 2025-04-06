@@ -50,7 +50,7 @@ export interface ExecutionResult {
 
 export interface Options {
   /** Options to pass to child_process.spawn */
-  childOptions?: SpawnOptions
+  childOptions?: Omit<SpawnOptions, 'shell'>
   /** Stream to write stdout to (defaults to process.stdout) */
   stdout?: NodeJS.WritableStream
   /** Stream to write stderr to (defaults to process.stderr) */

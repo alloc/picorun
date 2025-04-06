@@ -1,5 +1,6 @@
 // src/index.ts
 import { ChildProcess, spawn } from 'node:child_process'
+import path from 'node:path'
 import { styleText } from 'node:util'
 import {
   ExecutionResult,
@@ -183,8 +184,15 @@ export class TaskExecutionArray
     prepareTasks(tasks, options).forEach((task, index) => {
       const startTime = Date.now()
       const subprocess = spawn(task.cmd, {
-        shell: true,
         ...childOptions,
+        shell: true,
+        env: {
+          ...process.env,
+          ...childOptions?.env,
+          PATH: `${path.resolve('node_modules/.bin')}:${
+            childOptions?.env?.PATH ?? process.env.PATH
+          }`,
+        },
       })
 
       onStart(subprocess, task)
